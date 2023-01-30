@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToDo } from '../redux/rootRedux';
 import Todolist from './Todolist';
 import './Todo.css';
 import { Button, TextField, Typography } from '@mui/material';
 import Calendar from './Calendar';
+import { getTodo, addTodo } from '../redux/rootRedux';
 
 export default function InputTodo() {
 	const todos = useSelector((state) => state.todos.todos);
 	const [calDate, setCalDate] = useState(null);
-	const [todo, setTodo] = useState({ text: '', date: '' });
+	const [todo, setTodo] = useState({ content: '', date: '' });
 	const dispatch = useDispatch();
 
+	React.useEffect(() => {
+		dispatch(getTodo());
+	}, []);
 	const changeTodo = (e) => {
-		setTodo((prev) => ({ ...prev, text: e.target.value }));
+		setTodo((prev) => ({ ...prev, content: e.target.value }));
 	};
 	const changeDate = (value) => {
 		var date = new Date(value.$d);
@@ -30,13 +33,13 @@ export default function InputTodo() {
 	};
 	const addWork = (e) => {
 		e.preventDefault();
-		if (todo.text === '') {
+		if (todo.content === '') {
 			alert('내용을 입력해주세요.');
 		} else if (todo.date === '') {
 			alert('날짜를 선택해주세요.');
 		} else {
-			dispatch(addToDo(todo));
-			setTodo({ text: '', date: '' });
+			dispatch(addTodo());
+			setTodo({ content: '', date: '' });
 			setCalDate(null);
 		}
 	};
@@ -51,7 +54,7 @@ export default function InputTodo() {
 							type='text'
 							placeholder='할일을 입력하세요.'
 							onChange={changeTodo}
-							value={todo.text}
+							value={todo.content}
 						/>
 
 						<Calendar calDate={calDate} changeDate={changeDate} />
@@ -68,7 +71,7 @@ export default function InputTodo() {
 							<Todolist
 								key={value.id}
 								id={value.id}
-								text={value.text}
+								text={value.content}
 								date={value.date}
 							/>
 						))}

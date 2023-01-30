@@ -9,7 +9,7 @@ export default function Calendar({ calDate, changeDate }) {
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<DatePicker
 				className='Calendar'
-				value={calDate}
+				value={calDate}        
 				onChange={(newValue) => {
 					changeDate(newValue);
 				}}

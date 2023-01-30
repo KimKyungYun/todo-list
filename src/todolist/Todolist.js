@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
 import { removeToDo } from '../redux/rootRedux';
 import { Button } from '@mui/material';
-export default function Work({ id, text, date }) {
+
+export default function Todolist({ id, text, date }) {
 	const dispatch = useDispatch();
 	const removeText = () => {
 		dispatch(removeToDo(id));
